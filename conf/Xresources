@@ -1,0 +1,12 @@
+*.background: black
+*.foreground: gray
+*.scrollBar: false
+*.geometry: 95x25
+*.font: xft:Inconsolata:size=14
+*.selectToClipboard: true
+
+# pulled from man page - double click selects file paths now
+# characters 33, 37, 38, 45, 46, and 46 should be treated as type 48,
+# which happens to be numbers.
+*.charClass: 33:48,37:48,45-47:48,38:48
+*.cutNewline: false

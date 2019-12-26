@@ -1,0 +1,17 @@
+" syntax highlighting
+syntax on
+
+set autoindent
+
+" 72 character columns
+set textwidth=72
+
+" row and column and bottom right
+set ruler
+
+" Always reformat lines/paragraphs to textwidth
+" set formatoptions+=a
+
+autocmd FileType html setlocal tabstop=4 textwidth=0
+autocmd FileType css setlocal tabstop=4 textwidth=0
+autocmd FileType python setlocal tabstop=4 expandtab textwidth=0
