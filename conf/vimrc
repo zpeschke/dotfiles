@@ -1,6 +1,10 @@
 " syntax highlighting
 syntax on
 
+" usually using dark terminal backgrounds
+set background=dark
+
+" set the obvious
 set autoindent
 
 " 72 character columns
@@ -12,6 +16,7 @@ set ruler
 " Always reformat lines/paragraphs to textwidth
 " set formatoptions+=a
 
-autocmd FileType html setlocal tabstop=4 textwidth=0
-autocmd FileType css setlocal tabstop=4 textwidth=0
-autocmd FileType python setlocal tabstop=4 expandtab textwidth=0
+" apply different settings for different file extensions
+autocmd BufNewFile,BufRead *.html setlocal tabstop=4 textwidth=0
+autocmd BufNewFile,BufRead *.css setlocal tabstop=4 textwidth=0
+autocmd BufNewFile,BufRead *.py setlocal tabstop=4 expandtab textwidth=0
