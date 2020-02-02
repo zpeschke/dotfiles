@@ -9,8 +9,7 @@ set -g status-right "%Y-%m-%d %H:%M"
 <% end %>
 
 # reload source file
-bind R source-file ~/.tmux.conf \; \
-	display-message "configuration reloaded"
+bind R source-file ~/.tmux.conf \\; display-message "configuration reloaded"
 
 # use hjkl to move between panes
 bind -n C-h select-pane -L
