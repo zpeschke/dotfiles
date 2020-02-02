@@ -38,7 +38,7 @@ while read line; do
 
 		echo "$line" | grep -q "^ *end *$"
 		if [ $? -eq 0 ]; then
-			echo -n "$template_str"
+			echo -ne "$template_str"
 			true=0
 			condition=0
 			template_str=""
