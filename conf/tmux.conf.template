@@ -5,8 +5,19 @@
 set -g status-right "Battery: #(apm | head -1 | cut -d' ' -f 4)  %Y-%m-%d %H:%M"
 <% end %>
 <% $(uname -s) = "Linux" %>
+# set time format on status bar
 set -g status-right "%Y-%m-%d %H:%M"
 <% end %>
+
+# increase history limit
+set -g history-limit 10000
+
+# enable color in terminal
+set -g default-terminal "screen-256color"
+
+# set vi mode for status and window modes
+set -g status-keys vi
+setw -g mode-keys vi
 
 # reload source file
 bind R source-file ~/.tmux.conf \\; display-message "configuration reloaded"
