@@ -44,7 +44,7 @@ while read src dest; do
 	dest=$(eval echo $dest)
 
 	# only process file if "file" string matches the src name
-	echo "$src" | grep -qE "$pattern" 
+	echo "$src" | /usr/bin/grep -qE "$pattern"
 	if [ $? -eq 0 ]; then
 		case "$src" in
 		*.template)

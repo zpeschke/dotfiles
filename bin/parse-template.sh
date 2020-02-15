@@ -36,7 +36,7 @@ while read line; do
 		# remove suffix
 		line="${line%\%>}"
 
-		echo "$line" | grep -q "^ *end *$"
+		echo "$line" | /usr/bin/grep -q "^ *end *$"
 		if [ $? -eq 0 ]; then
 			echo -ne "$template_str"
 			true=0
