@@ -15,6 +15,9 @@ set -g history-limit 10000
 # enable color in terminal
 set -g default-terminal "screen-256color"
 
+# ensure names are static when manually set
+set -g allow-rename off
+
 # set vi mode for status and window modes
 set -g status-keys vi
 setw -g mode-keys vi
