@@ -20,3 +20,5 @@ set ruler
 autocmd BufNewFile,BufRead *.html setlocal tabstop=4 textwidth=0
 autocmd BufNewFile,BufRead *.css setlocal tabstop=4 textwidth=0
 autocmd BufNewFile,BufRead *.py setlocal tabstop=4 expandtab textwidth=0
+autocmd BufNewFile,BufRead *.txt setlocal tabstop=4 expandtab
+autocmd BufNewFile,BufRead *.yml,*.yaml setlocal tabstop=2 expandtab textwidth=0
