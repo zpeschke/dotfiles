@@ -37,3 +37,6 @@ bind -n C-f resize-pane -Z
 # don't require prefix key to change windows
 bind -n C-n next-window
 bind -n C-p previous-window
+
+# toggle to synchronize panes
+bind S set synchronize-panes
