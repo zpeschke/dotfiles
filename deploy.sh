@@ -2,34 +2,42 @@
 
 usage() {
 	echo "Usage: $0 -a"
-	echo "       $0 pattern [pattern] [...]"
+	echo "       $0 -e pattern [pattern ...]"
+	echo "       $0 pattern [pattern ...]"
 	exit 1
 }
 
 map_file="map.txt"
 parse_template="bin/parse-template.sh"
 pattern=""
+grep_options="-qE"
 
 # parse command line arguments and generate a extended grep pattern
 if [ $# -eq 0 ]; then
 	usage
-elif [ $# -eq 1 ]; then
+else
 	case "$1" in
 	-a)
 		pattern=".*"
+		shift
+		;;
+	-e)
+		grep_options="${grep_options} -v"
+		shift
 		;;
 	-*)
 		usage
 		;;
 	*)
 		pattern="$1"
+		shift
 		;;
 	esac
-else
+
 	for i in "$@"; do
 		# escape -'s
 		i=$(echo "$i" | /usr/bin/sed 's/-/\\-/')
-		if [ -z $pattern ]; then
+		if [ -z "$pattern" ]; then
 			pattern="$i"
 		else
 			pattern="$pattern|$i"
@@ -44,7 +52,7 @@ while read src dest; do
 	dest=$(eval echo $dest)
 
 	# only process file if "file" string matches the src name
-	echo "$src" | /usr/bin/grep -qE "$pattern"
+	echo "$src" | /usr/bin/grep $grep_options "$pattern"
 	if [ $? -eq 0 ]; then
 		case "$src" in
 		*.template)
