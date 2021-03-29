@@ -13,6 +13,9 @@ set textwidth=72
 " row and column and bottom right
 set ruler
 
+" highlight matching text in searches
+set hls
+
 " Always reformat lines/paragraphs to textwidth
 " set formatoptions+=a
 

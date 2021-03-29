@@ -57,7 +57,7 @@ while read src dest; do
 		case "$src" in
 		*.template)
 			"$parse_template" "$src" > "$dest"
-			echo "${src%.template} -> $dest"
+			echo "'${src%.template}' -> '$dest'"
 			;;
 		*)
 			/bin/cp -v "$src" "$dest"
