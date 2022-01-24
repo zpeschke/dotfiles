@@ -1,14 +1,5 @@
 # tmux configuration
 
-<% $(uname -s) = "OpenBSD" %>
-# set battery (OpenBSD) and time on status bar
-set -g status-right "Battery: #(apm | head -1 | cut -d' ' -f 4) %%Y-%%m-%%d %%H:%%M"
-<% end %>
-<% $(uname -s) = "Linux" -o $(uname -s) = "Darwin" %>
-# set time format on status bar
-set -g status-right "%%Y-%%m-%%d %%H:%%M"
-<% end %>
-
 # increase history limit
 set -g history-limit 10000
 
@@ -25,7 +16,7 @@ setw -g mode-keys vi
 # reload source file
 bind R source-file ~/.tmux.conf \\; display-message "configuration reloaded"
 
-# use hjkl to move between panes
+# hjkl to move between panes (no prefix)
 bind -n C-h select-pane -L
 bind -n C-j select-pane -D
 bind -n C-k select-pane -U
@@ -34,9 +25,29 @@ bind -n C-l select-pane -R
 # toggle pane to full-screen
 bind -n C-f resize-pane -Z
 
-# don't require prefix key to change windows
+# ctrl+[np] for next and previous windows (no prefix)
 bind -n C-n next-window
 bind -n C-p previous-window
 
 # toggle to synchronize panes
 bind S set synchronize-panes
+
+# theme
+set -g status-bg black
+set -g status-fg white
+set -g status-left-length 30
+set -g status-left '#[fg=green](#S)'
+
+<% $(uname -s) = "OpenBSD" %>
+# set battery (OpenBSD) and time on status bar
+set -g status-right 'Battery: #(apm | head -1 | cut -d' ' -f 4) #[fg=white]%%Y-%%m-%%d %%H:%%M#[default]'
+<% end %>
+<% $(uname -s) = "Linux" -o $(uname -s) = "Darwin" %>
+# set time format on status bar
+set -g status-right '#[fg=white]%%Y-%%m-%%d %%H:%%M#[default]'
+<% end %>
+
+set -g status-justify centre
+set -g pane-active-border-style 'fg=#53fca5'
+set -g window-status-current-style 'fg=red bold'
+set -g window-status-current-format '#I#[fg=colour249]:#[fg=colour255]#W#[fg=colour249]#F'
