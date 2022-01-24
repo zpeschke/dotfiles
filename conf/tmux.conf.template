@@ -33,10 +33,14 @@ bind -n C-p previous-window
 bind S set synchronize-panes
 
 # theme
-set -g status-bg black
-set -g status-fg white
+set -g status-style 'bg=#212121 fg=white'
 set -g status-left-length 30
 set -g status-left '#[fg=green](#S)'
+
+set -g status-justify centre
+set -g window-status-current-format '#[fg=red,bold]#I#[fg=colour249]:#[fg=colour255]#W#[fg=colour249]#F#[default]'
+
+set -g pane-active-border-style 'fg=#25ba74'
 
 <% $(uname -s) = "OpenBSD" %>
 # set battery (OpenBSD) and time on status bar
@@ -46,8 +50,3 @@ set -g status-right 'Battery: #(apm | head -1 | cut -d' ' -f 4) #[fg=white]%%Y-%
 # set time format on status bar
 set -g status-right '#[fg=white]%%Y-%%m-%%d %%H:%%M#[default]'
 <% end %>
-
-set -g status-justify centre
-set -g pane-active-border-style 'fg=#53fca5'
-set -g window-status-current-style 'fg=red bold'
-set -g window-status-current-format '#I#[fg=colour249]:#[fg=colour255]#W#[fg=colour249]#F'
