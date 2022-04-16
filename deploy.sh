@@ -7,10 +7,15 @@ usage() {
 	exit 1
 }
 
-map_file="map.txt"
-parse_template="bin/parse-template.sh"
-pattern=""
-grep_options="-qE"
+MAP_FILE="map.txt"
+PARSE_TEMPLATE="bin/parse-template.sh"
+PATTERN=""
+GREP_OPTIONS="-qE"
+
+WHICH="/usr/bin/which"
+CP="$(${WHICH} cp)"
+GREP="$(${WHICH} grep)"
+SED="$(${WHICH} sed)"
 
 # parse command line arguments and generate a extended grep pattern
 if [ $# -eq 0 ]; then
@@ -18,29 +23,29 @@ if [ $# -eq 0 ]; then
 else
 	case "$1" in
 	-a)
-		pattern=".*"
+		PATTERN=".*"
 		shift
 		;;
 	-e)
-		grep_options="${grep_options} -v"
+		GREP_OPTIONS="${GREP_OPTIONS} -v"
 		shift
 		;;
 	-*)
 		usage
 		;;
 	*)
-		pattern="$1"
+		PATTERN="$1"
 		shift
 		;;
 	esac
 
 	for i in "$@"; do
 		# escape -'s
-		i=$(echo "$i" | /usr/bin/sed 's/-/\\-/')
-		if [ -z "$pattern" ]; then
-			pattern="$i"
+		i=$(echo "$i" | "$SED" 's/-/\\-/')
+		if [ -z "$PATTERN" ]; then
+			PATTERN="$i"
 		else
-			pattern="$pattern|$i"
+			PATTERN="$PATTERN|$i"
 		fi
 	done
 fi
@@ -52,16 +57,16 @@ while read src dest; do
 	dest=$(eval echo $dest)
 
 	# only process file if "file" string matches the src name
-	echo "$src" | /usr/bin/grep $grep_options "$pattern"
+	echo "$src" | "$GREP" $GREP_OPTIONS "$PATTERN"
 	if [ $? -eq 0 ]; then
 		case "$src" in
 		*.template)
-			"$parse_template" "$src" > "$dest"
+			"$PARSE_TEMPLATE" "$src" > "$dest"
 			echo "'${src%.template}' -> '$dest'"
 			;;
 		*)
-			/bin/cp -v "$src" "$dest"
+			"$CP" -v "$src" "$dest"
 			;;
 		esac
 	fi
-done < "$map_file"
+done < "$MAP_FILE"

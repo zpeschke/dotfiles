@@ -13,51 +13,54 @@ if [ $# -ne 1 ]; then
 fi
 
 # file we are parsing
-file="$1"
+FILE="$1"
 
 # template string to be build and printed if shell condition within the
 # template is true
-template_str=""
+TEMPLATE_STR=""
 
 # 0 if out of template text, 1 if in template text
-condition=0
+TEMPLATE_CONDITION=0
 
-# 0 if condition is false, 1 if condition is true
-true=0
+# 0 if template condition is false, 1 if template condition is true
+TEMPLATE_CONDITION_TRUE=0
+
+WHICH="/usr/bin/which"
+GREP="$(${WHICH} grep)"
 
 while read line; do
 	case $line in
 	\<%*%\>)
 		# we are now within a template condition
-		condition=1
+		TEMPLATE_CONDITION=1
 
 		# remove prefix
 		line="${line#<\%}"
 		# remove suffix
 		line="${line%\%>}"
 
-		printf "$line" | /usr/bin/grep -q "^ *end *$"
+		printf "$line" | "$GREP" -q "^ *end *$"
 		if [ $? -eq 0 ]; then
-			printf "$template_str"
-			true=0
-			condition=0
-			template_str=""
+			printf "$TEMPLATE_STR"
+			TEMPLATE_CONDITION_TRUE=0
+			TEMPLATE_CONDITION=0
+			TEMPLATE_STR=""
 		else
 			# test the condition provided in the template
 			eval "test $line"
 			if [ $? -eq 0 ]; then
-				true=1
+				TEMPLATE_CONDITION_TRUE=1
 			fi	
 		fi
 		;;
 	*)
-		if [ $true -eq 1 ]; then
-			template_str="${template_str}${line}\n"
+		if [ $TEMPLATE_CONDITION_TRUE -eq 1 ]; then
+			TEMPLATE_STR="${TEMPLATE_STR}${line}\n"
 		else
-			if [ $condition -eq 0 ]; then
+			if [ $TEMPLATE_CONDITION -eq 0 ]; then
 				echo $line
 			fi	
 		fi
 		;;
 	esac
-done < "$file"
+done < "$FILE"
