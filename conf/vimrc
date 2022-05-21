@@ -26,3 +26,8 @@ autocmd BufNewFile,BufRead *.json       setlocal tabstop=2 textwidth=0
 autocmd BufNewFile,BufRead *.py         setlocal tabstop=4 textwidth=0 expandtab
 autocmd BufNewFile,BufRead *.txt        setlocal tabstop=4 expandtab
 autocmd BufNewFile,BufRead *.yml,*.yaml setlocal tabstop=2 textwidth=0 expandtab
+
+" copy/paste between vim instances by using tmp file
+vmap \y :w! /tmp/vimshare<CR>
+nmap \y :w! /tmp/vimshare<CR>
+nmap \p :r! cat /tmp/vimshare<CR>
