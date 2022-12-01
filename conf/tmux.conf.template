@@ -33,7 +33,7 @@ bind -n C-n next-window
 bind -n C-p previous-window
 
 # toggle to synchronize panes
-bind S set synchronize-panes
+bind S set synchronize-panes \\; display-message "Synchronize Panes: #{?pane_synchronized,on,off}"
 
 # theme
 set -g status-style 'bg=#212121 fg=white'
