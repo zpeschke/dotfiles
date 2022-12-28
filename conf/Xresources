@@ -1,12 +1,60 @@
-*.background: black
-*.foreground: gray
-*.scrollBar: false
-*.geometry: 95x25
-*.font: xft:Inconsolata:size=14
-*.selectToClipboard: true
+XTerm*termName: xterm-256color
+XTerm*scrollBar: false
+XTerm*geometry: 110x30
+XTerm*selectToClipboard: true
 
-# pulled from man page - double click selects file paths now
-# characters 33, 37, 38, 45, 46, and 46 should be treated as type 48,
-# which happens to be numbers.
-*.charClass: 33:48,37:48,45-47:48,38:48
-*.cutNewline: false
+XTerm*faceName: Inconsolata
+XTerm*faceSize: 12
+XTerm*renderFont: true
+
+! Pulled from man page - double click selects file paths now
+! Characters 33, 37, 38, 45, 46, and 46 should be treated as type 48,
+! which happens to be numbers.
+XTerm*charClass: 33:48,37:48,45-47:48,38:48
+XTerm*cutNewline: false
+XTerm*highlightSelection: true
+XTerm*trimSelection: true
+
+! Ctrl [-+0] now decrease font size, increase font size, and set font to
+! back to default, respectively.
+XTerm.vt100.translations: #override \n\
+	Ctrl <Key> minus: smaller-vt-font() \n\
+	Ctrl <Key> plus: larger-vt-font() \n\
+	Ctrl <Key> 0: set-vt-font(d)
+
+! Custom color theme
+XTerm*background:  #101010
+XTerm*foreground:  #d0d0d0
+XTerm*cursorColor: #d0d0d0
+
+!! Black, Gray
+XTerm*color0:      #101010
+XTerm*color8:      #303030
+
+!! Red, Light Red
+XTerm*color1:      #c40105
+XTerm*color9:      #e52225
+
+!! Green, Light Green
+XTerm*color2:      #1aaf00
+XTerm*color10:     #4ddb34
+
+!! Yellow, Light Yellow
+XTerm*color3:      #c1be00
+XTerm*color11:     #d6d213
+
+!! Dark Blue, Light Blue
+XTerm*color4:      #0052e0
+XTerm*color12:     #0082e0
+
+!! Magenta, Light Magenta
+XTerm*color5:      #c902c2
+XTerm*color13:     #e035da
+
+!! Cyan, Light Cyan
+XTerm*color6:      #04cccc
+XTerm*color14:     #43e8e8
+
+!! Gray, White
+XTerm*color7:      #9999aa
+XTerm*color15:     #d0d0d0
