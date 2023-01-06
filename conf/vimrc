@@ -24,7 +24,7 @@ autocmd BufNewFile,BufRead *.html setlocal tabstop=4 textwidth=0
 autocmd BufNewFile,BufRead *.css setlocal tabstop=4 textwidth=0
 autocmd BufNewFile,BufRead *.json setlocal tabstop=2 textwidth=0
 autocmd BufNewFile,BufRead *.py,*.py.* setlocal tabstop=4 textwidth=0 expandtab syntax=python
-autocmd BufNewFile,BufRead *.tf setlocal tabstop=2 expandtab syntax=tf
+autocmd BufNewFile,BufRead *.hcl,*.tf,*.tfvars setlocal tabstop=2 expandtab syntax=tf
 autocmd BufNewFile,BufRead *.txt setlocal tabstop=4 expandtab
 autocmd BufNewFile,BufRead *.yml,.*.yml.*,*.yaml,*.yaml.* setlocal tabstop=2 textwidth=0 expandtab syntax=yaml
 
