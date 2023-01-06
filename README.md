@@ -17,7 +17,7 @@ this is linux
 third line
 ```
 
-If you parse this template with the [`bin/parse-template.sh`](https://github.com/peschke/home/blob/master/bin/parse-template.sh) script, the output is the following on my system:
+If you parse this template with the [`bin/parse-template.sh`](https://github.com/zpeschke/home/blob/master/bin/parse-template.sh) script, the output is the following on my system:
 
 ```
 $ bin/parse-template.sh sample.template 
@@ -32,7 +32,7 @@ Embedded conditions do not work at this time.
 
 # Deploy
 
-The [`deploy.sh`](https://github.com/peschke/home/blob/master/deploy.sh) script can be used to deploy files and templates to whichever location you desire. Any file ending in extenstion `.template` will be parsed by the [`bin/parse-template.sh`](https://github.com/peschke/home/blob/master/bin/parse-template.sh) script before being deployed. The source and destination maps should be defined within [`maps.txt`](https://github.com/peschke/home/blob/master/map.txt). The source should be the relevant path to a file within the current working directory. Here is an example [`maps.txt`](https://github.com/peschke/home/blob/master/map.txt) file:
+The [`deploy.sh`](https://github.com/zpeschke/home/blob/master/deploy.sh) script can be used to deploy files and templates to whichever location you desire. Any file ending in extenstion `.template` will be parsed by the [`bin/parse-template.sh`](https://github.com/zpeschke/home/blob/master/bin/parse-template.sh) script before being deployed. The source and destination maps should be defined within [`maps.txt`](https://github.com/zpeschke/home/blob/master/map.txt). The source should be the relevant path to a file within the current working directory. Here is an example [`maps.txt`](https://github.com/zpeschke/home/blob/master/map.txt) file:
 
 ```
 $ cat map.txt 
@@ -41,7 +41,7 @@ conf/tmux.conf.template ~/.tmux.conf
 conf/vimrc              ~/.vimrc
 ```
 
-Here is the usage of [`deploy.sh`](https://github.com/peschke/home/blob/master/deploy.sh):
+Here is the usage of [`deploy.sh`](https://github.com/zpeschke/home/blob/master/deploy.sh):
 
 ```
 $ ./deploy.sh 
@@ -49,7 +49,7 @@ Usage: ./deploy.sh -a
        ./deploy.sh pattern [pattern] [...]
 ```
 
-* `-a` will deploy all files defined in [`map.txt`](https://github.com/peschke/home/blob/master/map.txt).
+* `-a` will deploy all files defined in [`map.txt`](https://github.com/zpeschke/home/blob/master/map.txt).
 * `pattern [pattern] [...]` will only deploy files matching the extended grep patterns provided.
 
 Below are some examples:
