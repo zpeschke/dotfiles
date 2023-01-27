@@ -2,7 +2,9 @@
   extra_styling = False
   inactive_color_offset = 1.0
   putty_paste_style_source_clipboard = True
+  smart_copy = False
 [keybindings]
+  paste = <Shift>Insert
 [profiles]
   [[default]]
     icon_bell = False
