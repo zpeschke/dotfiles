@@ -35,6 +35,10 @@ bind -n C-f resize-pane -Z
 bind -n C-n next-window
 bind -n C-p previous-window
 
+# ctrl+(right|left) for next and previous clients
+bind -n C-Right switch-client -n
+bind -n C-Left switch-client -p
+
 # toggle to synchronize panes
 bind S set synchronize-panes \\; display-message "Synchronize Panes: #{?pane_synchronized,on,off}"
 
