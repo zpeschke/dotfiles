@@ -18,7 +18,7 @@
     scroll_on_output = True
     scrollback_lines = 5000
     palette = "#101010:#c40105:#1aaf00:#c1be00:#0052e0:#c902c2:#04cccc:#9999aa:#303030:#e52225:#4ddb34:#d6d213:#0082e0:#e035da:#43e8e8:#d0d0d0"
-    word_chars = "-,./?%&#_~"
+    word_chars = "-,./?%&_~"
     use_system_font = False
     bold_is_bright = True
     copy_on_selection = True
