@@ -16,6 +16,9 @@ set ruler
 " highlight matching text in searches
 set hls
 
+" toggle paste mode
+set pastetoggle=<F12>
+
 " Always reformat lines/paragraphs to textwidth
 " set formatoptions+=a
 
