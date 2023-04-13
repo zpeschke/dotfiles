@@ -1,4 +1,4 @@
-conf/Xresources         ~/.Xresources
-conf/tmux.conf.template ~/.tmux.conf
-conf/vimrc              ~/.vimrc
-conf/terminator         ~/.config/terminator/config
+conf/Xresources ~/.Xresources
+conf/tmux.conf  ~/.tmux.conf
+conf/vimrc      ~/.vimrc
+conf/terminator ~/.config/terminator/config
