@@ -52,6 +52,9 @@ bind -n C-Left switch-client -p
 # toggle to synchronize panes
 bind S set synchronize-panes \\; display-message "Synchronize Panes: #{?pane_synchronized,on,off}"
 
+# set the session path to the current panes path
+bind P attach-session -c '#{pane_current_path}' \; display-message "Set session path to #{pane_current_path}"
+
 # theme
 set -g status-style 'bg=#212121 fg=white'
 set -g status-left-length 30
