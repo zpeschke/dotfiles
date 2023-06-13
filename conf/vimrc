@@ -39,6 +39,6 @@ autocmd BufNewFile,BufRead *.txt setlocal tabstop=4 softtabstop=4 expandtab
 autocmd BufNewFile,BufRead *.yml,*.yml.*,*.yaml,*.yaml.* setlocal tabstop=2 softtabstop=2 textwidth=0 expandtab syntax=yaml
 
 " copy/paste between vim instances by using tmp file
-vmap \y :w! /tmp/vimshare<CR>
-nmap \y :w! /tmp/vimshare<CR>
-nmap \p :r! cat /tmp/vimshare<CR>
+vmap \y :w! ~/.vimshare<CR>
+nmap \y :w! ~/.vimshare<CR>
+nmap \p :r! cat ~/.vimshare<CR>
