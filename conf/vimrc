@@ -39,7 +39,7 @@ autocmd BufNewFile,BufRead *.go setlocal tabstop=8 softtabstop=8 textwidth=0
 autocmd BufNewFile,BufRead *.json setlocal tabstop=2 softtabstop=2 expandtab textwidth=0
 autocmd BufNewFile,BufRead *.py,*.py.* setlocal tabstop=4 softtabstop=4 textwidth=0 expandtab syntax=python
 autocmd BufNewFile,BufRead *.hcl,*.tf,*.tfvars setlocal tabstop=2 softtabstop=2 expandtab textwidth=0 syntax=tf
-autocmd BufNewFile,BufRead *.txt setlocal tabstop=4 softtabstop=4 expandtab
+autocmd BufNewFile,BufRead *.txt,*.md setlocal tabstop=4 softtabstop=4 expandtab syntax=markdown
 autocmd BufNewFile,BufRead *.yml,*.yml.*,*.yaml,*.yaml.* setlocal tabstop=2 softtabstop=2 textwidth=0 expandtab syntax=yaml
 
 " copy/paste between vim instances by using tmp file
