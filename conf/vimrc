@@ -28,6 +28,10 @@ set backspace=indent,eol,start
 " Always reformat lines/paragraphs to textwidth
 " set formatoptions+=a
 
+" highlight trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
 " apply different settings for different file extensions
 autocmd BufNewFile,BufRead *.html setlocal tabstop=4 softtabstop=4 expandtab textwidth=0
 autocmd BufNewFile,BufRead *.css setlocal tabstop=4 softtabstop=4 expandtab textwidth=0
