@@ -1,16 +1,20 @@
 [global_config]
   extra_styling = False
   inactive_color_offset = 1.0
+  title_use_system_font = False
+  title_font = Inconsolata Medium 10
   putty_paste_style_source_clipboard = True
   smart_copy = False
 [keybindings]
-  paste = <Shift>Insert
+  paste = <Shift>Home
+  help = ""
 [profiles]
   [[default]]
     icon_bell = False
     background_color = "#101010"
     cursor_blink = False
     cursor_color = "#aaaaaa"
+    cursor_color_fg = False
     font = Inconsolata Medium 12
     foreground_color = "#d0d0d0"
     show_titlebar = False
@@ -30,4 +34,5 @@
     [[[child1]]]
       type = Terminal
       parent = window0
+      profile = default
 [plugins]
