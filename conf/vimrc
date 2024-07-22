@@ -88,3 +88,45 @@ function! CopySelectionToClipboard()
 	normal! gv
 endfunction
 vnoremap \c :<C-U>call CopySelectionToClipboard()<CR>
+
+" Function and mapping to toggle checklist item completion
+" If there is a list item without a check box, this function will add
+" it. Otherwise, it will toggle the checklist item between complete
+" '[x]' and not complete '[ ]'.
+function! ToggleCheckListItem()
+	" capture current line at cursor
+	let current_line = getline('.')
+
+	" capture current cursor position
+	let save_cursor = getpos('.')
+
+	" variable that will have newline to replace current line with
+	let new_line = ''
+
+	if current_line !~ '- \[ \]' || current_line !~ '- \[x\]'
+		let new_line = substitute(current_line, '- ', '- [ ] ', '')
+	endif
+
+	" replace '[ ]' with '[x]'
+	if current_line =~ '\[ \]'
+		let new_line = substitute(current_line, '\[ \]', '[x]', '')
+	endif
+
+	" replace '[x]' with '[ ]'
+	if current_line =~ '\[x\]'
+		let new_line = substitute(current_line, '\[x\]', '[ ]', '')
+	endif
+
+	" update the line
+	if new_line != ''
+		call setline('.', new_line)
+	endif
+
+	" exit visual mode - for some reason this works but simply
+	" running `normal! \<Esc>` does not
+	normal! :<C-u>normal! \<Esc>
+
+	" restore cursor position
+	call setpos('.', save_cursor)
+endfunction
+nnoremap \<Space> :<C-U>call ToggleCheckListItem()<CR>
