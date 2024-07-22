@@ -41,6 +41,7 @@ autocmd BufNewFile,BufRead *.html setlocal tabstop=4 softtabstop=4 expandtab tex
 autocmd BufNewFile,BufRead *.css setlocal tabstop=4 softtabstop=4 expandtab textwidth=0
 autocmd BufNewFile,BufRead *.go setlocal tabstop=8 softtabstop=8 textwidth=0
 autocmd BufNewFile,BufRead *.json setlocal tabstop=2 softtabstop=2 expandtab textwidth=0
+autocmd BufNewFile,BufRead *.php setlocal tabstop=4 softtabstop=4 textwidth=0 expandtab syntax=php
 autocmd BufNewFile,BufRead *.py,*.py.* setlocal tabstop=4 softtabstop=4 textwidth=0 expandtab syntax=python
 autocmd BufNewFile,BufRead *.hcl,*.tf,*.tfvars setlocal tabstop=2 softtabstop=2 expandtab textwidth=0 syntax=tf
 autocmd BufNewFile,BufRead *.txt,*.md setlocal tabstop=4 softtabstop=4 expandtab syntax=markdown
