@@ -51,3 +51,40 @@ autocmd BufNewFile,BufRead *.yml,*.yml.*,*.yaml,*.yaml.* setlocal tabstop=2 soft
 vmap \y :w! ~/.vimshare<CR>
 nmap \y :w! ~/.vimshare<CR>
 nmap \p :r! cat ~/.vimshare<CR>
+
+" add function and binding to copy entire file contents to system clipboard
+function! CopyFileToClipboard()
+	" copy entire file to clipboard
+	silent! execute ':%w !xclip -selection clipboard'
+
+	" check if command was successful
+	if v:shell_error == 0
+		echo "Copied file to clipboard"
+	else
+		echo "Failed to copy file to clipboard"
+	endif
+	sleep 500m
+endfunction
+nnoremap \c :<C-U>call CopyFileToClipboard()<CR>
+
+" add function and binding to copy visual selection to system clipboard
+
+function! CopySelectionToClipboard()
+	" re-select selection in normal mode and yank to register 'a'
+	normal! gv"ay
+
+	" copy register 'a' into system clipboard using xclip
+	call system('xclip -selection clipboard', @a)
+
+	" check if command was successful
+	if v:shell_error == 0
+		echo "Copied selection to clipboard"
+	else
+		echo "Failed to copy selection to clipboard"
+	endif
+	sleep 500m
+
+	" restore visual selection
+	normal! gv
+endfunction
+vnoremap \c :<C-U>call CopySelectionToClipboard()<CR>
