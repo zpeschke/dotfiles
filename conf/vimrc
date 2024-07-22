@@ -1,6 +1,10 @@
 " syntax highlighting
 syntax on
 
+" numbered column with custom fg color
+set number
+highlight LineNr ctermfg=238
+
 " usually using dark terminal backgrounds
 set background=dark
 
