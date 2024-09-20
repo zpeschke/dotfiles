@@ -1,3 +1,4 @@
+bin/ssh-swap    ~/bin/ssh-swap
 conf/Xresources ~/.Xresources
 conf/tmux.conf  ~/.tmux.conf
 conf/vimrc      ~/.vimrc
