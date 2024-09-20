@@ -5,21 +5,32 @@ SSH_KEY_PATH="${HOME}/.ssh/keys"
 SSH_KEYS=$(ls -1 "$SSH_KEY_PATH" | grep -v '^.*\.pub$')
 COUNT=1
 PATTERN=""
+MATCHED_SSH_KEYS=""
+MATCHED_SSH_KEYS_COUNT=0
 
 if [ $# -gt 0 ]; then
 	PATTERN="$1"
 fi
 
+# Look for pattern matches in SSH keys list
 if [ -n "$PATTERN" ]; then
-	SELECTED_SSH_KEY=$(echo "$SSH_KEYS" | grep "$PATTERN")
+	MATCHED_SSH_KEYS=$(echo "$SSH_KEYS" | grep "$PATTERN")
+	MATCHED_SSH_KEYS_COUNT=$(echo "$MATCHED_SSH_KEYS" | wc -l)
 
-	if [ $(echo "$SELECTED_SSH_KEY" | wc -l) -gt 1 ]; then
-		echo "More than one key matched:"
-		echo
-		echo "$SELECTED_SSH_KEY"
-		exit 0
+	if [ $MATCHED_SSH_KEYS_COUNT -eq 1 ]; then
+		SELECTED_SSH_KEY=$MATCHED_SSH_KEYS
 	fi
-else
+fi
+
+# If there was no single selected key from the pattern or no pattern
+# provided, then prompt the user to choose one.
+if [ -z "$SELECTED_SSH_KEY" ]; then
+	# If a pattern was provided and more than 1 key was matched,
+	# then prompt the user to select from the matched keys only.
+	if [ $MATCHED_SSH_KEYS_COUNT -ge 2 ]; then
+		SSH_KEYS="$MATCHED_SSH_KEYS"
+	fi
+
 	echo "Please choose an ssh key:"
 	echo
 
@@ -35,6 +46,8 @@ else
 	SELECTED_SSH_KEY=$(echo "$SSH_KEYS" | sed -n "${SELECTION}p")
 fi
 
+# If there is still not key selected, then we know it was an invalid
+# selection given.
 if [ -z "$SELECTED_SSH_KEY" ]; then
 	echo "Invalid selection"
 	exit 1
