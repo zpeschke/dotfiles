@@ -1,0 +1,44 @@
+#!/bin/bash
+
+
+SSH_KEY_PATH="${HOME}/.ssh/keys"
+SSH_KEYS=$(ls -1 "$SSH_KEY_PATH" | grep -v '^.*\.pub$')
+COUNT=1
+PATTERN=""
+
+if [ $# -gt 0 ]; then
+	PATTERN="$1"
+fi
+
+if [ -n "$PATTERN" ]; then
+	SELECTED_SSH_KEY=$(echo "$SSH_KEYS" | grep "$PATTERN")
+
+	if [ $(echo "$SELECTED_SSH_KEY" | wc -l) -gt 1 ]; then
+		echo "More than one key matched:"
+		echo
+		echo "$SELECTED_SSH_KEY"
+		exit 0
+	fi
+else
+	echo "Please choose an ssh key:"
+	echo
+
+	for key in $SSH_KEYS; do
+		echo "[$COUNT] $key"
+		((COUNT = COUNT + 1))
+	done
+
+	echo
+	read -p "Your choice: " SELECTION
+	echo
+
+	SELECTED_SSH_KEY=$(echo "$SSH_KEYS" | sed -n "${SELECTION}p")
+fi
+
+if [ -z "$SELECTED_SSH_KEY" ]; then
+	echo "Invalid selection"
+	exit 1
+fi
+
+ssh-add -D > /dev/null
+ssh-add "${SSH_KEY_PATH}/${SELECTED_SSH_KEY}"
