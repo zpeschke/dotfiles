@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Simple script to easily swap out ssh keys from an agent
 
 SSH_KEY_PATH="${HOME}/.ssh/keys"
 SSH_KEYS=$(ls -1 "$SSH_KEY_PATH" | grep -v '^.*\.pub$')
