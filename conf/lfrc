@@ -1,0 +1,18 @@
+# disable file and directory previews
+set preview false
+
+# only display the 1 pane that shows files and directories
+set ratios 1
+
+# show file size and time
+set info size:time
+
+# set time formats
+set infotimefmtold "2006-01-02 15:04"
+set infotimefmtnew "2006-01-02 15:04"
+
+# show hidden files
+set hidden true
+
+# open files using vi
+cmd open $vi $fx

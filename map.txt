@@ -1,5 +1,6 @@
 bin/ssh-swap    ~/bin/ssh-swap
 conf/Xresources ~/.Xresources
+conf/lfrc       ~/.config/lf/lfrc
+conf/terminator ~/.config/terminator/config
 conf/tmux.conf  ~/.tmux.conf
 conf/vimrc      ~/.vimrc
-conf/terminator ~/.config/terminator/config
