@@ -1,0 +1,41 @@
+[window]
+title = "Terminal"
+
+[font]
+size = 12
+
+[font.normal]
+family = "Inconsolata"
+style = "Regular"
+
+[colors.primary]
+background = "#101010"
+foreground = "#d0d0d0"
+
+[colors.normal]
+black = "#303030"
+blue = "#0082e0"
+cyan = "#04cccc"
+green = "#4ddb34"
+magenta = "#c902c2"
+red = "#c40105"
+white = "#9999aa"
+yellow = "#c1be00"
+
+[colors.bright]
+black = "#303030"
+blue = "#0082e0"
+cyan = "#43e8e8"
+green = "#4ddb34"
+magenta = "#e035da"
+red = "#e52225"
+white = "#d0d0d0"
+yellow = "#d6d213"
+
+[selection]
+save_to_clipboard = true
+
+[keyboard]
+bindings = [
+    { key = "Home", mods = "Shift", action = "Paste" },
+]
