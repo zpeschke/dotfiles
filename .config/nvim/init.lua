@@ -3,7 +3,6 @@ vim.cmd("syntax on")
 
 -- Numbered column with custom fg color
 vim.opt.number = true
-vim.api.nvim_set_hl(0, "LineNr", { ctermfg = 238 })
 
 -- Usually using dark terminal backgrounds
 vim.opt.background = "dark"
@@ -32,15 +31,12 @@ vim.g.mapleader = "\\"
 -- Set cursor to block in insert mode
 vim.opt.guicursor = "i:block"
 
-vim.api.nvim_set_hl(0, "Normal", {
-  ctermbg = NONE,
-  guibg = NONE,
-})
+-- Display statusline only if there are at least two windows
+vim.opt.laststatus = 1
 
--- Define highlight group for the statusline
-vim.api.nvim_set_hl(0, "StatusLine", {
-  ctermbg = NONE,
-  ctermbg = 14,
+-- No background to match terminal background
+vim.api.nvim_set_hl(0, "Normal", {
+  ctermbg = "NONE",
 })
 
 -- Map <leader>c to copy entire buffer or selection to system clipboard
