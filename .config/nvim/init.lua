@@ -1,5 +1,30 @@
--- Source exisiting .vimrc file
-vim.cmd("source ~/.vimrc")
+-- Syntax highlighting
+vim.cmd("syntax on")
+
+-- Numbered column with custom fg color
+vim.opt.number = true
+vim.api.nvim_set_hl(0, "LineNr", { ctermfg = 238 })
+
+-- Usually using dark terminal backgrounds
+vim.opt.background = "dark"
+
+-- Set autoindenting
+vim.opt.autoindent = true
+
+-- 72 character columns
+vim.opt.textwidth = 72
+
+-- row and column and bottom right
+vim.opt.ruler = true
+
+-- highlight matching text in searches
+vim.opt.hlsearch = true
+
+-- always show 3 top/bottom lines when scrolling
+vim.opt.scrolloff = 3
+
+-- better backspace
+vim.opt.backspace = 'indent,eol,start'
 
 -- Set mapleader to backslack
 vim.g.mapleader = "\\"
@@ -7,11 +32,24 @@ vim.g.mapleader = "\\"
 -- Set cursor to block in insert mode
 vim.opt.guicursor = "i:block"
 
+vim.api.nvim_set_hl(0, "Normal", {
+  ctermbg = NONE,
+  guibg = NONE,
+})
+
 -- Define highlight group for the statusline
 vim.api.nvim_set_hl(0, "StatusLine", {
   ctermbg = NONE,
   ctermbg = 14,
 })
+
+-- Map <leader>c to copy entire buffer or selection to system clipboard
+vim.keymap.set('n', '<leader>c', ':%y+<CR>', { noremap = true, silent = true, desc = 'Copy entire buffer to clipboard' })
+vim.keymap.set('v', '<leader>c', '"+y', { noremap = true, silent = true, desc = 'Copy selection to clipboard' })
+
+-- Highlight trailing whitespace
+vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = 'red', ctermbg = 'red' })
+vim.cmd([[match ExtraWhitespace /\s\+$/]])
 
 -- Define :Rexplore command to open oil
 vim.cmd([[
