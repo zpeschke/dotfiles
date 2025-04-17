@@ -49,43 +49,5 @@ vim.keymap.set('v', '<leader>c', '"+y', { noremap = true, silent = true, desc = 
 vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = 'red', ctermbg = 'red' })
 vim.cmd([[match ExtraWhitespace /\s\+$/]])
 
--- Define :Rexplore command to open oil
-vim.cmd([[
-  command! Rexplore lua require("oil").open()
-]])
-
--- Map :Rexplore to key
-vim.api.nvim_set_keymap('n', '<leader>o', ':Rexplore<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '-', ':Rexplore<CR>', { noremap = true, silent = true })
-
 -- Load lazy.nvim for plugin management
 require("config.lazy")
-
--- Load Telescope and keybindings
-local telescope = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', telescope.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fg', telescope.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('n', '<leader>fb', telescope.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>fh', telescope.help_tags, { desc = 'Telescope help tags' })
-vim.keymap.set('n', '<leader>fw', function()
-  telescope.live_grep({ default_text = vim.fn.expand('<cWORD>') })
-end, { desc = 'Telescope live grep current word' })
-
--- Load oil and modify keybindings
-require("oil").setup({
-  keymaps = {
-    ["h"] = { "actions.parent" },
-    ["l"] = { "actions.select" },
-  },
-  view_options = {
-    show_hidden = true
-  },
-})
-
--- Load gitsigns and add keybindings
-require("gitsigns").setup({
-  on_attach = function(bufnr)
-    local gitsigns = require("gitsigns")
-    vim.keymap.set('n', '<leader>gb', gitsigns.blame, { desc = 'Gitsigns toggle line blame' })
-  end
-})
