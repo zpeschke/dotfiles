@@ -4,9 +4,6 @@ vim.cmd("syntax on")
 -- Numbered column with custom fg color
 vim.opt.number = true
 
--- Usually using dark terminal backgrounds
-vim.opt.background = "dark"
-
 -- Set autoindenting
 vim.opt.autoindent = true
 
@@ -31,12 +28,17 @@ vim.g.mapleader = "\\"
 -- Set cursor to block in insert mode
 vim.opt.guicursor = "i:block"
 
--- Display statusline only if there are at least two windows
-vim.opt.laststatus = 1
+-- Always display statusline but only on bottom window
+vim.opt.laststatus = 3
 
 -- No background to match terminal background
 vim.api.nvim_set_hl(0, "Normal", {
-  ctermbg = "NONE",
+  bg = "NONE",
+})
+
+-- Set StatusLine background color to dark gray
+vim.api.nvim_set_hl(0, "StatusLine", {
+  bg = '#333333',
 })
 
 -- Map <leader>c to copy entire buffer or selection to system clipboard
@@ -54,6 +56,7 @@ vim.cmd([[
 
 -- Map :Rexplore to key
 vim.api.nvim_set_keymap('n', '<leader>o', ':Rexplore<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '-', ':Rexplore<CR>', { noremap = true, silent = true })
 
 -- LSP configuration for gopls
 require("lspconfig").gopls.setup {
@@ -66,29 +69,12 @@ require("lspconfig").gopls.setup {
       staticcheck = true,
     },
   },
-  on_attach = function(client, bufnr)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-    -- Mappings
-    local bufopts = { noremap=true, silent=true, buffer=bufnr }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-  end,
 }
 
 -- Load lazy.nvim for plugin management
 require("config.lazy")
 
--- Add telescope keybindings
+-- Load Telescope and keybindings
 local telescope = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', telescope.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fg', telescope.live_grep, { desc = 'Telescope live grep' })
@@ -98,9 +84,21 @@ vim.keymap.set('n', '<leader>fw', function()
   telescope.live_grep({ default_text = vim.fn.expand('<cWORD>') })
 end, { desc = 'Telescope live grep current word' })
 
+-- Load oil and modify keybindings
 require("oil").setup({
   keymaps = {
     ["h"] = { "actions.parent" },
     ["l"] = { "actions.select" },
-  }
+  },
+  view_options = {
+    show_hidden = true
+  },
+})
+
+-- Load gitsigns and add keybindings
+require("gitsigns").setup({
+  on_attach = function(bufnr)
+    local gitsigns = require("gitsigns")
+    vim.keymap.set('n', '<leader>gb', gitsigns.blame, { desc = 'Gitsigns toggle line blame' })
+  end
 })
