@@ -58,19 +58,6 @@ vim.cmd([[
 vim.api.nvim_set_keymap('n', '<leader>o', ':Rexplore<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '-', ':Rexplore<CR>', { noremap = true, silent = true })
 
--- LSP configuration for gopls
-require("lspconfig").gopls.setup {
-  cmd = {"gopls"},
-  settings = {
-    gopls = {
-      analyses = {
-        unusedparams = true,
-      },
-      staticcheck = true,
-    },
-  },
-}
-
 -- Load lazy.nvim for plugin management
 require("config.lazy")
 
