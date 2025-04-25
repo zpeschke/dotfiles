@@ -49,5 +49,9 @@ vim.keymap.set('v', '<leader>c', '"+y', { noremap = true, silent = true, desc = 
 vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = 'red', ctermbg = 'red' })
 vim.cmd([[match ExtraWhitespace /\s\+$/]])
 
+-- Load todo utils
+local todo_utils = require("utils.todo")
+vim.keymap.set('n', '<leader><Space>', todo_utils.toggle_checklist_item, { noremap = true })
+
 -- Load lazy.nvim for plugin management
 require("config.lazy")
