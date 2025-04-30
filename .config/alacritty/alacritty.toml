@@ -9,28 +9,36 @@ family = "Inconsolata Nerd Font"
 style = "Regular"
 
 [colors.primary]
-background = "#101010"
-foreground = "#d0d0d0"
+background = "#1a1a1a"
+foreground = "#e0e0e0"
+
+[colors.cursor]
+cursor = "#e0e0e0"
+text = "#1a1a1a"
 
 [colors.normal]
 black = "#303030"
-blue = "#0082e0"
-cyan = "#04cccc"
-green = "#4ddb34"
-magenta = "#c902c2"
-red = "#c40105"
-white = "#9999aa"
-yellow = "#c1be00"
+blue = "#3b8eea"
+cyan = "#20c5c5"
+green = "#5ac550"
+magenta = "#bf68bf"
+red = "#d83838"
+white = "#b0b0c0"
+yellow = "#e6c446"
 
 [colors.bright]
-black = "#303030"
-blue = "#0082e0"
-cyan = "#43e8e8"
-green = "#4ddb34"
-magenta = "#e035da"
-red = "#e52225"
-white = "#d0d0d0"
-yellow = "#d6d213"
+black = "#5c5c5c"
+blue = "#6aa9fa"
+cyan = "#67e6e6"
+green = "#7ed876"
+magenta = "#e57fe5"
+red = "#f25a5a"
+white = "#ededed"
+yellow = "#f3d87e"
+
+[colors.selection]
+background = "#4a4d52"
+text = "#e0e0e0"
 
 [selection]
 save_to_clipboard = true
