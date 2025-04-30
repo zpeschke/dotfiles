@@ -45,6 +45,9 @@ vim.api.nvim_set_hl(0, "StatusLine", {
 vim.keymap.set('n', '<leader>c', ':%y+<CR>', { noremap = true, silent = true, desc = 'Copy entire buffer to clipboard' })
 vim.keymap.set('v', '<leader>c', '"+y', { noremap = true, silent = true, desc = 'Copy selection to clipboard' })
 
+-- Map <leader>f to tab split for active window full screen
+vim.keymap.set('n', '<leader>f', ':tab split<CR>', { noremap = true, silent = true, desc = 'Full screen current window in tab' })
+
 -- Highlight trailing whitespace
 vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = 'red', ctermbg = 'red' })
 vim.cmd([[match ExtraWhitespace /\s\+$/]])
