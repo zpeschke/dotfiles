@@ -1,5 +1,6 @@
 [window]
-title = "Terminal"
+title = ""
+padding = { x = 5, y = 2 }
 
 [font]
 size = 12
