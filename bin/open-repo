@@ -1,0 +1,27 @@
+#!/bin/bash
+# Opens a git repository URL within your XDG preferred web browser
+
+BRANCH=0
+
+if [ "$1" = '-b' ]; then
+	BRANCH=1
+fi
+
+repo=$(git remote -v 2>/dev/null | head -1)
+
+if [ -z "$repo" ]; then
+	echo "This directory does not appear to be a git repository."
+	exit 1
+fi
+
+url=$(echo "$repo" | awk '{print $2}')
+
+if echo "$url" | grep -q '@'; then
+	url=https://$(echo "$url" | awk -F '@' '{ print $2 }' | sed -e 's/:/\//' -e 's/\.git//')
+fi
+
+if [ $BRANCH -eq 1 ]; then
+	url="${url}/tree/$(git branch --show-current)"
+fi
+
+xdg-open "$url" >/dev/null
