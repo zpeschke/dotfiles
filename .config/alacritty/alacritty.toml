@@ -5,7 +5,7 @@ title = "Terminal"
 size = 12
 
 [font.normal]
-family = "Inconsolata"
+family = "Inconsolata Nerd Font"
 style = "Regular"
 
 [colors.primary]
