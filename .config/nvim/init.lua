@@ -41,6 +41,12 @@ vim.api.nvim_set_hl(0, "StatusLine", {
   bg = '#333333',
 })
 
+-- Set LineNr foreground color to dark gray
+vim.api.nvim_set_hl(0, "LineNr", {
+  fg=238,
+  ctermfg=238,
+})
+
 -- Map <leader>c to copy entire buffer or selection to system clipboard
 vim.keymap.set('n', '<leader>c', ':%y+<CR>', { noremap = true, silent = true, desc = 'Copy entire buffer to clipboard' })
 vim.keymap.set('v', '<leader>c', '"+y', { noremap = true, silent = true, desc = 'Copy selection to clipboard' })
