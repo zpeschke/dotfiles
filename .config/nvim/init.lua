@@ -22,29 +22,37 @@ vim.opt.scrolloff = 3
 -- better backspace
 vim.opt.backspace = 'indent,eol,start'
 
+-- Disable mouse support
+vim.opt.mouse = ""
+
 -- Set mapleader to backslack
 vim.g.mapleader = "\\"
 
 -- Set cursor to block in insert mode
 vim.opt.guicursor = "i:block"
 
--- Always display statusline but only on bottom window
-vim.opt.laststatus = 3
+-- Always display statusline
+vim.opt.laststatus = 2
+
+-- Active status line color
+vim.api.nvim_set_hl(0, "StatusLine", {
+  bg = '#444444',
+  fg = '#d0d0d0',
+  bold = true,
+})
+
+-- Inactive status line color
+vim.api.nvim_set_hl(0, "StatusLineNC", {
+  bg = '#2a2a2a',
+  fg = '#909090',
+})
+
+-- Status line format
+vim.opt.statusline = " %f %m%r %=%y [%l:%c] "
 
 -- No background to match terminal background
 vim.api.nvim_set_hl(0, "Normal", {
   bg = "NONE",
-})
-
--- Set StatusLine background color to dark gray
-vim.api.nvim_set_hl(0, "StatusLine", {
-  bg = '#333333',
-})
-
--- Set LineNr foreground color to dark gray
-vim.api.nvim_set_hl(0, "LineNr", {
-  fg=238,
-  ctermfg=238,
 })
 
 -- Map <leader>c to copy entire buffer or selection to system clipboard
