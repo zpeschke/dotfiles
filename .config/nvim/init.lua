@@ -66,9 +66,20 @@ vim.keymap.set('n', '<leader>f', ':tab split<CR>', { noremap = true, silent = tr
 vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = 'red', ctermbg = 'red' })
 vim.cmd([[match ExtraWhitespace /\s\+$/]])
 
+-- Map :Explore to key
+vim.api.nvim_set_keymap('n', '-', ':Explore<CR>', { noremap = true, silent = true })
+
 -- Load todo utils
 local todo_utils = require("utils.todo")
 vim.keymap.set('n', '<leader><Space>', todo_utils.toggle_checklist_item, { noremap = true })
+
+-- Add keybind to copy buffer cwd to clipboard
+local misc_utils = require("utils.misc")
+vim.keymap.set('n', '<leader>P', function()
+  local cwd = misc_utils.get_buffer_cwd()
+  vim.fn.setreg('+', cwd)
+  vim.notify("Copied path to clipboard: " .. cwd)
+end, { noremap = true })
 
 -- Load lazy.nvim for plugin management
 require("config.lazy")

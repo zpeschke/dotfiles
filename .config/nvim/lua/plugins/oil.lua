@@ -43,13 +43,7 @@ return {
         end,
       },
     })
-
-    -- Define :Rexplore command to open oil
-    vim.cmd([[
-      command! Rexplore lua require("oil").open()
-    ]])
-
-    -- Map :Rexplore to key
-    vim.api.nvim_set_keymap('n', '-', ':Rexplore<CR>', { noremap = true, silent = true })
-  end,
+    -- Define :Explore command to open oil
+    vim.api.nvim_create_user_command('Explore', function() require("oil").open() end, {})
+  end
 }
