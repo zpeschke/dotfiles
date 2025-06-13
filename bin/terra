@@ -1,0 +1,262 @@
+#!/bin/sh
+# Written in early 2024 before I knew tfenv was a thing.
+#
+# This is a simple script that downloads and manages your active
+# terraform and/or terragrunt binaries. The supplied version of the tool
+# is downloaded to $TERRA_DEST and a symlink points to it when it is
+# set.
+
+# Requirements:
+# curl
+# unzip (for terraform)
+
+# This script currently only supports downloading binaries for amd64
+# linux, but could simply be exanded to support others.
+
+PROGNAME=$(/usr/bin/basename $0)
+TERRAFORM=0
+TERRAGRUNT=0
+TERRA_DEST="${TERRA_DEST:-${HOME}/bin}"
+TERRA_TEMP="${TERRA_TEMP:-/tmp}"
+
+usage() {
+	echo "Usage: terra (tf|tg) (get|list|set)"
+	echo "       tf (get|list|set)"
+	echo "       tg (get|list|set)"
+}
+
+# Check if the version is already downloaded
+check_if_exists() {
+	local _tool=$1
+	local _version=$2
+
+	if [ -f "${TERRA_DEST}/${_tool}-${_version}" ]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+download_url() {
+	local _url_base=$1
+	local _binary_name=$2
+	local _binary_path=$3
+	local _full_url="${_url_base}/${_binary_name}"
+
+	# check if the file even exists with an HTTP HEAD call
+	local _ret=$(/usr/bin/curl -s \
+	                           -L \
+	                           -I \
+	                           -o /dev/null \
+	                           -w '%{http_code}' \
+	                           "${_full_url}")
+
+	if [ $_ret -ne 200 ]; then
+		echo "Error 404: ${_full_url}"
+		return 1
+	fi
+
+	# actually download it if it exists
+	/usr/bin/curl -s -L -o "${_binary_path}" "${_full_url}"
+
+	return 0
+}
+
+get_terra() {
+	local _tool=$1
+	local _version=$2
+	local _binary_url=$3
+	local _binary_name=$4
+	local _sha256_name=$5
+
+	# interpolate the $_version variable within the urls
+	local _expanded_binary_url=$(eval echo $_binary_url)
+	local _expanded_binary_name=$(eval echo $_binary_name)
+	local _binary_path="${TERRA_TEMP}/${_expanded_binary_name}"
+
+	local _expanded_sha256_name=$(eval echo $_sha256_name)
+	local _sha256_path="${TERRA_TEMP}/${_tool}-${_version}-sha256sum"
+
+	# exit if this version is already installed
+	check_if_exists $_tool $_version && return 1
+
+	# download binary
+	download_url "${_expanded_binary_url}" "${_expanded_binary_name}" "${_binary_path}" || return 1
+
+	# download sha256
+	download_url "${_expanded_binary_url}" "${_expanded_sha256_name}" "${_sha256_path}" || return 1
+
+	# check sha256
+	(cd $TERRA_TEMP && /usr/bin/grep $_expanded_binary_name $_sha256_path | /usr/bin/sha256sum -c - >/dev/null 2>&1)
+
+	if [ $? -ne 0 ]; then
+		echo "!! SHA256 check failed for $_binary_path"
+		return 1
+	fi
+
+	if [ $_tool = 'terraform' ]; then
+		(
+			cd $TERRA_TEMP
+			/usr/bin/unzip -q $_binary_path
+			/bin/mv terraform "${TERRA_DEST}/terraform-${_version}"
+			/bin/chmod 0755 "${TERRA_DEST}/terraform-${_version}"
+		)
+	elif [ $_tool = 'terragrunt' ]; then
+		mv $_binary_path "${TERRA_DEST}/terragrunt-${_version}"
+		/bin/chmod 0755 "${TERRA_DEST}/terragrunt-${_version}"
+	fi
+
+	rm $_binary_path $_sha256_path 2>/dev/null
+
+	return 0
+}
+
+list_terra() {
+	local _tool=$1
+	local _active_tool=''
+	local _active_version=0
+	local _version
+	local _current_list
+
+	if [ -h "${TERRA_DEST}/$_tool" ]; then
+		_active_tool=$(/usr/bin/readlink ${TERRA_DEST}/${_tool})
+		_active_version=$(echo $_active_tool | cut -d '-' -f 2)
+	fi
+
+	# Use find globbing to get a list of current tools matching
+	# pattern, or return an empty string. We cannot rely on shell
+	# globbing here because if the shell doesn't find any files to
+	# expand the glob, then we are returned the literal string for
+	# "${_tool}-*" which does not exist.
+	_current_list=$(find ${TERRA_DEST} -name "${_tool}-*" -exec basename {} \;)
+
+	if [ -n "${_current_list}" ]; then
+		echo "Installed versions of $_tool in $TERRA_DEST":
+	else
+		echo "No versions of $_tool found in $TERRA_DEST"
+	fi
+
+	for tool in ${_current_list}; do
+		_version=$(echo $tool | /usr/bin/cut -d '-' -f 2)
+
+		if [ $_version = $_active_version ]; then
+			echo "${_version} (active)"
+		elif [ $_version = 'docs' ]; then
+			# skip terraform-docs binary if it exists
+			continue
+		else
+			echo $_version
+		fi
+	done
+}
+
+set_terra() {
+	local _tool=$1
+	local _version=$2
+	local _binary_url=$3
+	local _binary_name=$4
+	local _sha256_name=$5
+
+	# attempt to get the tool if it doesn't exist
+	if ! check_if_exists $_tool $_version; then
+		get_terra $_tool $_version $_binary_url $_binary_name $_sha256_name || return 1
+	fi
+
+	(
+		cd $TERRA_DEST
+		/bin/ln -svf "${_tool}-${_version}" "${_tool}"
+	)
+}
+
+case $PROGNAME in
+tf)
+	TERRAFORM=1
+	;;
+tg)
+	TERRAGRUNT=1
+	;;
+terra)
+	if [ $# -lt 1 ]; then
+		usage
+		exit 1
+	fi	
+
+	if [ $1 = "tf" ]; then
+		TERRAFORM=1
+	elif [ $1 = "tg" ]; then
+		TERRAGRUNT=1
+	else
+		echo "One of the following arguments needs to be specified: tf tg"
+		exit 1
+	fi
+
+	shift
+	;;
+*)
+	echo "Unsupported program name: $PROGNAME"
+	exit 1
+	;;
+esac
+
+if [ $TERRAFORM -eq 1 ]; then
+	TOOL=terraform
+	BINARY_URL='https://releases.hashicorp.com/terraform/${_version}'
+	BINARY_NAME='terraform_${_version}_linux_amd64.zip'
+	SHA256_NAME='terraform_${_version}_SHA256SUMS'
+elif [ $TERRAGRUNT -eq 1 ]; then
+	TOOL=terragrunt
+	BINARY_URL='https://github.com/gruntwork-io/terragrunt/releases/download/v${_version}'
+	BINARY_NAME='terragrunt_linux_amd64'
+	SHA256_NAME='SHA256SUMS'
+fi
+
+if [ $# -lt 1 ]; then
+	usage
+	exit 1
+fi
+
+for arg in $@; do
+	case $arg in
+	get)
+		shift
+		if [ $# -lt 1 ]; then
+			echo "Please provide a version"
+			exit 1
+		fi
+
+		version=$1
+		version=$(echo $version | sed 's/^v//')
+
+		get_terra $TOOL $version $BINARY_URL $BINARY_NAME $SHA256_NAME
+		break
+		;;
+	list)
+		list_terra $TOOL
+		break
+		;;
+	set)
+		shift
+		if [ $# -lt 1 ]; then
+			echo "Please provide a version"
+			exit 1
+		fi
+
+		version=$1
+		version=$(echo $version | sed 's/^v//')
+
+		set_terra $TOOL $version $BINARY_URL $BINARY_NAME $SHA256_NAME
+
+		break
+		;;
+	-h|--help|help)
+		usage
+		exit 0
+		;;
+	*)
+		echo "Unknown option: $arg"
+		usage
+		exit 1
+	esac
+done
+
+exit 0
