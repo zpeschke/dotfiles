@@ -7,9 +7,6 @@ vim.opt.number = true
 -- Set autoindenting
 vim.opt.autoindent = true
 
--- 72 character columns
-vim.opt.textwidth = 72
-
 -- row and column and bottom right
 vim.opt.ruler = true
 
