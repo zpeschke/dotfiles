@@ -43,6 +43,10 @@ text = "#e0e0e0"
 
 [selection]
 save_to_clipboard = true
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t=@$"
+
+[mouse]
+hide_when_typing = true
 
 [keyboard]
 bindings = [
