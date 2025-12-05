@@ -5,6 +5,7 @@ return {
     local lspconfig = require("lspconfig")
 
     vim.lsp.enable("gopls")
+    vim.lsp.enable("pylsp")
     vim.lsp.enable("terraformls")
 
     vim.lsp.config("jsonnet", {
