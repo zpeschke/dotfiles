@@ -12,4 +12,17 @@ M.get_buffer_cwd = function()
   return path
 end
 
+M.open_jira = function()
+  local open_command = 'xdg-open'
+  local jira_url = vim.env.JIRA_URL
+
+  if jira_url == nil then
+    print('JIRA_URL must be defined')
+    return
+  end
+
+  local url = jira_url .. '/browse/' .. vim.fn.expand('<cWORD>')
+  vim.system({ open_command, url }, { detach = true })
+end
+
 return M

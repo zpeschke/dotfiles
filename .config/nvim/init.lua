@@ -77,6 +77,7 @@ vim.keymap.set('n', '<leader>P', function()
   vim.fn.setreg('+', cwd)
   vim.notify("Copied path to clipboard: " .. cwd)
 end, { noremap = true })
+vim.keymap.set('n', '<leader>j', misc_utils.open_jira, { noremap = true })
 
 -- Load lazy.nvim for plugin management
 require("config.lazy")
