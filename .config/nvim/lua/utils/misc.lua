@@ -25,4 +25,26 @@ M.open_jira = function()
   vim.system({ open_command, url }, { detach = true })
 end
 
+M.get_url = function()
+  remote_obj = vim.system({'git', 'remote', 'get-url', 'origin'}, { text = true }):wait()
+  if remote_obj.code ~= 0 then
+    print('error: path does not appear to be within a git repository')
+    return
+  end
+
+  root_obj = vim.system({'git', 'rev-parse', '--show-toplevel'}, { text = true }):wait()
+  branch_obj = vim.system({'git', 'branch', '--show-current'}, { text = true }):wait()
+
+  -- newlines need to be removed from all vim.system stdout
+  -- hyphens in the git root path need to be escaped with %
+  remote_url = remote_obj.stdout:gsub('%s+$', ''):gsub(':', '/'):gsub('.git$', ''):gsub('^git@', 'https://')
+  root = root_obj.stdout:gsub('%s+$', ''):gsub('%-', '%%%-')
+  branch = branch_obj.stdout:gsub('%s+$', '')
+  path = vim.fn.expand('%:p'):gsub(root .. '/', '')
+
+  git_url = remote_url .. '/tree/' .. branch .. '/' .. path
+  vim.fn.setreg('+', git_url)
+  vim.notify("Copied url to clipboard: " .. git_url)
+end
+
 return M
