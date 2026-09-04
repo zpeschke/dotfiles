@@ -60,8 +60,12 @@ vim.keymap.set('v', '<leader>c', '"+y', { noremap = true, silent = true, desc = 
 vim.keymap.set('n', '<leader>f', ':tab split<CR>', { noremap = true, silent = true, desc = 'Full screen current window in tab' })
 
 -- Highlight trailing whitespace
-vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = 'red', ctermbg = 'red' })
-vim.cmd([[match ExtraWhitespace /\s\+$/]])
+vim.opt.list = true
+vim.opt.listchars = { trail = '·' }
+vim.api.nvim_set_hl(0, 'Whitespace', { fg = 'red' })
+
+-- Persist undo history across sessions
+vim.opt.undofile = true
 
 -- Map :Explore to key
 vim.api.nvim_set_keymap('n', '-', ':Explore<CR>', { noremap = true, silent = true })

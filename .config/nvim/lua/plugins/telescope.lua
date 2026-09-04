@@ -4,18 +4,7 @@ return {
   dependencies = { 'nvim-lua/plenary.nvim' },
   config = function()
     local telescope = require('telescope.builtin')
-
-    local get_cwd = function()
-      local path = vim.fn.expand('%:p:h')
-
-      -- oil.nvim prepends buffer path URLs with 'oil://', which causes
-      -- telescoped being invoked from oil.nvim using the 'cwd' arg not to work.
-      if path:match('^oil://') then
-        path = path:gsub('^oil://', '')
-      end
-
-      return path
-    end
+    local get_cwd = require('utils.misc').get_buffer_cwd
 
     -- global file search from where buffer was originally opened
     vim.keymap.set('n', '<leader>tf', telescope.find_files, { desc = 'Telescope find files' })

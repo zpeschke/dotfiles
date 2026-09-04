@@ -18,6 +18,13 @@ return {
       },
       config = function()
         local neogit = require('neogit')
+        vim.api.nvim_create_autocmd('FileType', {
+          pattern = 'Neogit*',
+          callback = function(args)
+            -- override global mapping of `-` to allow using it in Neogit
+            vim.keymap.set('n', '-', '-', { buffer = args.buf })
+          end,
+        })
         vim.keymap.set('n', '<leader>gg', neogit.open, { desc = 'Open Neogit' })
       end,
   }
