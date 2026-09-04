@@ -1,21 +1,28 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
-    version = "*",
+    branch = 'main',
+    lazy = false,
     build = ':TSUpdate',
-    event = { 'BufReadPost', 'BufNewFile' },
     config = function()
-      require('nvim-treesitter.configs').setup({
-        ensure_installed = {
-          'go', 'gomod', 'gowork', 'gosum',
-          'python',
-          'terraform', 'hcl',
-          'jsonnet', 'json',
-          'lua', 'yaml', 'groovy',
-        },
-        auto_install = true,
-        highlight = { enable = true },
-        indent = { enable = true },
+      local parsers = {
+        'go', 'gomod', 'gowork', 'gosum',
+        'python',
+        'terraform', 'hcl',
+        'jsonnet', 'json',
+        'lua', 'yaml', 'groovy',
+      }
+      require('nvim-treesitter').install(parsers)
+
+      -- terraform-vars (.tfvars) already maps to the terraform grammar via
+      -- nvim-treesitter's own plugin/filetypes.lua
+      local filetypes = vim.list_extend(vim.deepcopy(parsers), { 'terraform-vars' })
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = filetypes,
+        callback = function()
+          vim.treesitter.start()
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
       })
     end,
   },
@@ -26,5 +33,5 @@ return {
     opts = {
       max_lines = 4,
     },
-  }
+  },
 }

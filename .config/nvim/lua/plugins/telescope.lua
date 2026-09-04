@@ -2,7 +2,14 @@ return {
   'nvim-telescope/telescope.nvim', tag = '0.1.8',
   version = "*",
   dependencies = { 'nvim-lua/plenary.nvim' },
-  config = function()
+  opts = {
+    defaults = {
+      preview = { treesitter = false },
+    },
+  },
+  config = function(_, opts)
+    require('telescope').setup(opts)
+
     local telescope = require('telescope.builtin')
     local get_cwd = require('utils.misc').get_buffer_cwd
 
